@@ -42,22 +42,66 @@ export function getApiCompanyId(): string {
 
 async function request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const headers = new Headers(options.headers || {});
-  headers.set("Content-Type", "application/json");
-  headers.set("x-company-id", currentCompanyId);
+  if (!headers.has("Content-Type") && !(options.body instanceof FormData)) {
+    headers.set("Content-Type", "application/json");
+  }
+  headers.set("x-company-id", currentCompanyId || "comp_default_1");
 
   const token = localStorage.getItem("etc_auth_token");
   if (token) {
     headers.set("Authorization", `Bearer ${token}`);
   }
 
-  const res = await fetch(endpoint, {
-    ...options,
-    headers,
-  });
+  let res: Response;
+  try {
+    res = await fetch(endpoint, {
+      ...options,
+      headers,
+    });
+  } catch (netErr: any) {
+    // If the server was temporarily rebooting or network hiccup, retry once automatically
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 800));
+      res = await fetch(endpoint, {
+        ...options,
+        headers,
+      });
+    } catch {
+      throw new Error("تعذر الاتصال بالخادم. يرجى التحقق من اتصال الإنترنت أو تحديث الصفحة.");
+    }
+  }
 
   if (!res.ok) {
-    const errorData = await res.json().catch(() => ({ error: "فشل في تنفيذ الطلب" }));
-    throw new Error(errorData.error || `خطأ ${res.status}`);
+    let errorMsg = "";
+    try {
+      const errorData = await res.json();
+      errorMsg = errorData.error || errorData.message || "";
+    } catch {
+      try {
+        const text = await res.text();
+        if (text && text.length < 150 && !text.includes("<!DOCTYPE") && !text.includes("<html")) {
+          errorMsg = text;
+        }
+      } catch {
+        // ignore
+      }
+    }
+
+    if (!errorMsg) {
+      if (res.status === 401) {
+        errorMsg = "غير مصرح أو انتهت الجلسة. يرجى تسجيل الدخول مجدداً.";
+      } else if (res.status === 403) {
+        errorMsg = "ليس لديك الصلاحية الكافية لإتمام هذا الإجراء.";
+      } else if (res.status === 404) {
+        errorMsg = "المسار أو البيانات المطلوبة غير متوفرة حالياً.";
+      } else if (res.status >= 500) {
+        errorMsg = "الخادم يمر بعملية تحديث لحظية. يرجى إعادة المحاولة خلال ثوانٍ.";
+      } else {
+        errorMsg = `تعذر استكمال العملية (${res.status})`;
+      }
+    }
+
+    throw new Error(errorMsg);
   }
 
   return res.json();
