@@ -21,9 +21,9 @@
       "mobile": "01000000000",
       "jobTitle": "System Owner (مالك النظام)",
       "createdAt": "2026-09-17T10:50:03.465Z",
-      "lastLoginAt": "2026-09-17T10:50:26.303Z",
-      "loginCount": 3,
-      "lastActivity": "2026-09-17T10:50:26.303Z"
+      "lastLoginAt": "2026-09-17T10:58:19.217Z",
+      "loginCount": 5,
+      "lastActivity": "2026-09-17T10:58:19.217Z"
     }
   ],
   "roles": [
@@ -129,6 +129,36 @@
   ],
   "loginHistory": [
     {
+      "id": "lh_1789642699218",
+      "userId": "usr_owner",
+      "userName": "أحمد عبد الغني",
+      "username": "admin",
+      "email": "dahmedabdelghany1511@gmail.com",
+      "timestamp": "2026-09-17T10:58:19.217Z",
+      "date": "2026-09-17",
+      "time": "10:58:19",
+      "ip": "127.0.0.1",
+      "device": "حاسوب مكتبي (Desktop)",
+      "browser": "متصفح الويب (Web Browser)",
+      "status": "success",
+      "result": "نجح"
+    },
+    {
+      "id": "lh_1789642550433",
+      "userId": "usr_owner",
+      "userName": "أحمد عبد الغني",
+      "username": "admin",
+      "email": "dahmedabdelghany1511@gmail.com",
+      "timestamp": "2026-09-17T10:55:50.433Z",
+      "date": "2026-09-17",
+      "time": "10:55:50",
+      "ip": "156.198.248.104",
+      "device": "Windows",
+      "browser": "Google Chrome",
+      "status": "success",
+      "result": "نجح"
+    },
+    {
       "id": "lh_1789642226304",
       "userId": "usr_owner",
       "userName": "أحمد عبد الغني",
@@ -219,9 +249,81 @@
       "loginTime": "2026-09-17T10:50:26.303Z",
       "lastActive": "2026-09-17T10:50:26.303Z",
       "current": true
+    },
+    {
+      "id": "sess_1789642550433_h6cz724",
+      "userId": "usr_owner",
+      "userName": "أحمد عبد الغني",
+      "username": "admin",
+      "role": "System Owner",
+      "deviceId": "dev_6sczi",
+      "deviceType": "Windows",
+      "device": "Windows",
+      "browser": "Google Chrome",
+      "ip": "156.198.248.104",
+      "loginTime": "2026-09-17T10:55:50.433Z",
+      "lastActive": "2026-09-17T10:55:50.433Z",
+      "current": true
+    },
+    {
+      "id": "sess_owner_1789642649057",
+      "userId": "usr_owner",
+      "userName": "أحمد عبد الغني",
+      "username": "admin",
+      "role": "System Owner",
+      "current": true,
+      "loginTime": "2026-09-17T10:57:29.057Z",
+      "lastActive": "2026-09-17T10:57:29.057Z"
+    },
+    {
+      "id": "sess_1789642699217_t6tyf2x",
+      "userId": "usr_owner",
+      "userName": "أحمد عبد الغني",
+      "username": "admin",
+      "role": "System Owner",
+      "deviceId": "dev_d71v9",
+      "deviceType": "حاسوب مكتبي (Desktop)",
+      "device": "حاسوب مكتبي (Desktop)",
+      "browser": "متصفح الويب (Web Browser)",
+      "ip": "127.0.0.1",
+      "loginTime": "2026-09-17T10:58:19.217Z",
+      "lastActive": "2026-09-17T10:58:19.217Z",
+      "current": true
     }
   ],
   "auditLogs": [
+    {
+      "id": "log_1789642699218_ij3z5",
+      "userId": "usr_owner",
+      "userName": "أحمد عبد الغني",
+      "companyId": "comp_default_1",
+      "module": "Authentication",
+      "action": "Login",
+      "details": "تسجيل دخول ناجح للمستخدم: أحمد عبد الغني (admin)",
+      "date": "2026-09-17",
+      "time": "10:58:19",
+      "timestamp": "2026-09-17T10:58:19.218Z",
+      "ip": "127.0.0.1",
+      "device": "حاسوب مكتبي (Desktop)",
+      "browser": "متصفح الويب (Web Browser)",
+      "result": "نجح"
+    },
+    {
+      "id": "log_1789642550433_vo0ex",
+      "userId": "usr_owner",
+      "userName": "أحمد عبد الغني",
+      "companyId": "comp_default_1",
+      "module": "Authentication",
+      "action": "Login",
+      "details": "تسجيل دخول ناجح للمستخدم: أحمد عبد الغني (admin)",
+      "date": "2026-09-17",
+      "time": "10:55:50",
+      "timestamp": "2026-09-17T10:55:50.433Z",
+      "ip": "156.198.248.104",
+      "device": "Windows",
+      "browser": "Google Chrome",
+      "result": "نجح"
+    },
     {
       "id": "log_1789642226304_tacks",
       "userId": "usr_owner",

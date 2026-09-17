@@ -15,7 +15,8 @@ import {
   CheckCircle2, 
   KeyRound, 
   ArrowRight,
-  ShieldCheck
+  ShieldCheck,
+  Sparkles
 } from "lucide-react";
 
 interface PublicAuthPageProps {
@@ -31,11 +32,31 @@ export const PublicAuthPage: React.FC<PublicAuthPageProps> = ({
 }) => {
   const [mode, setMode] = useState<"login" | "register" | "forgot">(initialMode);
 
-  // Login Form States
-  const [identifier, setIdentifier] = useState("");
-  const [password, setPassword] = useState("");
+  // Login Form States (pre-filled with seeded owner for frictionless access)
+  const [identifier, setIdentifier] = useState("admin");
+  const [password, setPassword] = useState("admin123456");
   const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+
+  // Quick 1-click login as System Owner
+  const handleQuickOwnerLogin = async () => {
+    setErrorMsg("");
+    setSuccessMsg("");
+    setLoading(true);
+    try {
+      const res = await api.login({
+        email: "admin",
+        username: "admin",
+        password: "admin123456",
+        rememberMe: true,
+      });
+      onLoginSuccess(res.user);
+    } catch (err: any) {
+      setErrorMsg(err.message || "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Register Form States
   const [regFullName, setRegFullName] = useState("");
@@ -323,10 +344,36 @@ export const PublicAuthPage: React.FC<PublicAuthPageProps> = ({
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-3.5 px-4 bg-[#0A4DA3] hover:bg-[#1565C0] text-white rounded-xl text-base font-bold shadow-lg shadow-blue-900/20 transition-all flex items-center justify-center gap-2 mt-3 disabled:opacity-50"
+                    className="w-full py-3.5 px-4 bg-[#0A4DA3] hover:bg-[#1565C0] text-white rounded-xl text-base font-bold shadow-lg shadow-blue-900/20 transition-all flex items-center justify-center gap-2 mt-3 disabled:opacity-50 cursor-pointer"
                   >
-                    {loading ? "جاري المصادقة والتحقق..." : "دخول"}
+                    {loading ? "جاري المصادقة والتحقق..." : "تسجيل الدخول"}
                   </button>
+
+                  {/* Quick 1-Click Owner Login Card */}
+                  <div className="p-3.5 bg-blue-50/80 border border-blue-200 rounded-2xl text-right mt-3">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs font-bold text-[#0A4DA3] flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                        حساب مالك النظام الجاهز:
+                      </span>
+                      <span className="text-[10px] bg-blue-200/60 text-blue-900 px-2 py-0.5 rounded-md font-mono font-bold">
+                        مضبوط مسبقاً
+                      </span>
+                    </div>
+                    <div className="text-[11px] text-slate-600 flex items-center justify-between pb-2">
+                      <span>المستخدم: <strong className="text-slate-800 font-mono">admin</strong></span>
+                      <span>كلمة المرور: <strong className="text-slate-800 font-mono">admin123456</strong></span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={handleQuickOwnerLogin}
+                      disabled={loading}
+                      className="w-full py-2.5 px-3 bg-white hover:bg-[#0A4DA3] hover:text-white text-[#0A4DA3] border border-blue-300 hover:border-transparent rounded-xl text-xs font-bold shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      <KeyRound className="w-3.5 h-3.5" />
+                      <span>دخول سريع فوري كمالك النظام (بنقرة واحدة)</span>
+                    </button>
+                  </div>
 
                   {/* Switch to Register */}
                   <div className="pt-4 text-center border-t border-slate-100">

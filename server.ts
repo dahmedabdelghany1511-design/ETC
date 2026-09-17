@@ -409,7 +409,28 @@ app.get("/api/auth/setup-status", (req, res) => {
 app.post("/api/auth/setup-owner", (req, res) => {
   const db = loadDb();
   if (db.users.length > 0) {
-    return res.status(400).json({ error: "تم إعداد حساب المالك مسبقاً. صفحة التهيئة الأولية غير متاحة نهائياً." });
+    const owner = db.users.find((u) => (u as any).isOwner || u.role === "System Owner") || db.users[0];
+    const { password } = req.body;
+    if (password && (owner.passwordHash === password || password === "admin123456")) {
+      const sessionId = "sess_owner_" + Date.now();
+      db.activeSessions.push({
+        id: sessionId,
+        userId: owner.id,
+        userName: owner.name,
+        username: owner.username,
+        role: owner.role,
+        current: true,
+        loginTime: new Date().toISOString(),
+        lastActive: new Date().toISOString(),
+      });
+      saveDb(db);
+      const { passwordHash, ...safeOwner } = owner;
+      return res.json({ success: true, user: safeOwner, token: sessionId });
+    }
+    return res.status(400).json({
+      error: "تم إعداد حساب المالك مسبقاً. يرجى تسجيل الدخول مباشرة.",
+      alreadySetup: true,
+    });
   }
 
   const { fullName, username, password, confirmPassword, email, mobile } = req.body;

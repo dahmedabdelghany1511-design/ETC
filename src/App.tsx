@@ -136,7 +136,12 @@ export default function App() {
 
   // System starts empty -> Show First Run Setup Screen for Owner
   if (needsSetup) {
-    return <FirstRunSetupPage onSetupComplete={handleSetupComplete} />;
+    return (
+      <FirstRunSetupPage
+        onSetupComplete={handleSetupComplete}
+        onGoToLogin={() => setNeedsSetup(false)}
+      />
+    );
   }
 
   // Not logged in -> Show Public Website (Home, About, Services, Contact, Login, Register)

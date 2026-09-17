@@ -18,18 +18,41 @@ import {
 
 interface FirstRunSetupPageProps {
   onSetupComplete: (user: User) => void;
+  onGoToLogin?: () => void;
 }
 
-export const FirstRunSetupPage: React.FC<FirstRunSetupPageProps> = ({ onSetupComplete }) => {
-  const [fullName, setFullName] = useState("محمد عبد الغني");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [mobile, setMobile] = useState("");
+export const FirstRunSetupPage: React.FC<FirstRunSetupPageProps> = ({ onSetupComplete, onGoToLogin }) => {
+  const [fullName, setFullName] = useState("أحمد عبد الغني");
+  const [username, setUsername] = useState("admin");
+  const [password, setPassword] = useState("admin123456");
+  const [confirmPassword, setConfirmPassword] = useState("admin123456");
+  const [email, setEmail] = useState("dahmedabdelghany1511@gmail.com");
+  const [mobile, setMobile] = useState("01000000000");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleDirectLogin = async () => {
+    setLoading(true);
+    setErrorMsg("");
+    try {
+      const res = await api.login({
+        username: username.trim() || "admin",
+        password: password || "admin123456",
+      });
+      if (res.user) {
+        onSetupComplete(res.user);
+      }
+    } catch (err: any) {
+      if (onGoToLogin) {
+        onGoToLogin();
+      } else {
+        setErrorMsg(err.message || "تعذر تسجيل الدخول. يرجى التوجه لصفحة الدخول.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,6 +87,19 @@ export const FirstRunSetupPage: React.FC<FirstRunSetupPageProps> = ({ onSetupCom
         onSetupComplete(res.user);
       }
     } catch (err: any) {
+      // If already setup, try to login automatically
+      try {
+        const loginRes = await api.login({
+          username: username.trim() || "admin",
+          password,
+        });
+        if (loginRes.user) {
+          onSetupComplete(loginRes.user);
+          return;
+        }
+      } catch (loginErr) {
+        // Fallback to error message
+      }
       setErrorMsg(err.message || "فشلت تهيئة النظام. يرجى المحاولة مرة أخرى.");
     } finally {
       setLoading(false);
@@ -130,6 +166,42 @@ export const FirstRunSetupPage: React.FC<FirstRunSetupPageProps> = ({ onSetupCom
             <p className="text-xs text-slate-400 mt-1">
               جميع الحقول إلزامية. لن يتم إنشاء أي حساب أو كلمة مرور تلقائياً.
             </p>
+          </div>
+
+          {/* Quick Owner Access Card */}
+          <div className="mb-6 p-4 rounded-2xl bg-gradient-to-r from-blue-950/80 to-indigo-950/80 border border-blue-500/40 text-blue-100 shadow-md">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-bold text-blue-300 flex items-center gap-1.5">
+                <Sparkles className="w-4 h-4 text-amber-400" />
+                حساب المالك جاهز مسبقاً في قاعدة البيانات:
+              </span>
+              <span className="text-[10px] bg-blue-500/20 text-blue-300 border border-blue-400/30 px-2 py-0.5 rounded-md font-mono">
+                جاهز للاستخدام
+              </span>
+            </div>
+            <p className="text-xs text-slate-300 mb-3 leading-relaxed">
+              اسم المستخدم: <span className="font-mono text-white font-bold bg-slate-900/60 px-1.5 py-0.5 rounded">admin</span> | كلمة المرور: <span className="font-mono text-white font-bold bg-slate-900/60 px-1.5 py-0.5 rounded">admin123456</span>
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={handleDirectLogin}
+                disabled={loading}
+                className="flex-1 py-2.5 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <KeyRound className="w-3.5 h-3.5" />
+                <span>تسجيل الدخول الفوري بحساب المالك (بنقرة واحدة)</span>
+              </button>
+              {onGoToLogin && (
+                <button
+                  type="button"
+                  onClick={onGoToLogin}
+                  className="py-2.5 px-3 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl text-xs font-semibold transition-all cursor-pointer"
+                >
+                  صفحة الدخول
+                </button>
+              )}
+            </div>
           </div>
 
           {errorMsg && (
