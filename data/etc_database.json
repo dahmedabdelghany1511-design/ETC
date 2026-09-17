@@ -1,0 +1,131 @@
+{
+  "users": [],
+  "roles": [
+    {
+      "id": "role_super_admin",
+      "name": "Super Administrator",
+      "description": "صلاحيات كاملة وغير محدودة للنظام وإدارة كافة الشركات والمستخدمين",
+      "permissions": [
+        "*"
+      ],
+      "isSystem": true
+    },
+    {
+      "id": "role_cfo",
+      "name": "Financial Director (CFO)",
+      "description": "إدارة الاستراتيجية المالية واعتماد القوائم والموازنات والتقارير",
+      "permissions": [
+        "accounting.*",
+        "statements.*",
+        "tax.*",
+        "audit.*",
+        "budgets.*",
+        "reports.*",
+        "analysis.*"
+      ],
+      "isSystem": true
+    },
+    {
+      "id": "role_senior_acc",
+      "name": "Senior Accountant",
+      "description": "إدخال ومراجعة قيود اليومية، إقفال الفترات، وإعداد التسويات الجردية",
+      "permissions": [
+        "accounting.read",
+        "accounting.write",
+        "accounting.post",
+        "reports.read",
+        "tax.read"
+      ],
+      "isSystem": true
+    },
+    {
+      "id": "role_auditor",
+      "name": "Auditor",
+      "description": "المراجعة الداخلية والخارجية وفحص العمليات وإعداد أوراق العمل والتقارير",
+      "permissions": [
+        "audit.*",
+        "accounting.read",
+        "tax.read",
+        "reports.read"
+      ],
+      "isSystem": true
+    },
+    {
+      "id": "role_tax_consultant",
+      "name": "Tax Consultant",
+      "description": "فحص الالتزام الضريبي، الفاتورة والإيصال الإلكتروني، وإعداد الإقرارات",
+      "permissions": [
+        "tax.*",
+        "accounting.read",
+        "reports.read"
+      ],
+      "isSystem": true
+    }
+  ],
+  "departments": [
+    {
+      "id": "dep_management",
+      "name": "الإدارة العليا والرقابة",
+      "createdAt": "2026-09-11T19:00:43.891Z"
+    },
+    {
+      "id": "dep_finance",
+      "name": "الإدارة المالية والمحاسبة",
+      "createdAt": "2026-09-11T19:00:43.891Z"
+    },
+    {
+      "id": "dep_audit",
+      "name": "المراجعة الداخلية وإدارة المخاطر",
+      "createdAt": "2026-09-11T19:00:43.891Z"
+    },
+    {
+      "id": "dep_tax",
+      "name": "إدارة الضرائب والفاتورة الإلكترونية",
+      "createdAt": "2026-09-11T19:00:43.891Z"
+    }
+  ],
+  "companies": [
+    {
+      "id": "comp_default_1",
+      "name": "الشركة المصرية العامة للأنظمة والأعمال (ETC)",
+      "legalName": "شركة ETC للحلول المالية والمحاسبية ش.م.م",
+      "taxRegistrationNumber": "100-245-890",
+      "commercialRegistrationNumber": "84920",
+      "taxOffice": "مأمورية ضرائب الشركات المساهمة - القاهرة",
+      "currency": "EGP",
+      "fiscalYearStart": "01-01",
+      "fiscalYearEnd": "12-31",
+      "address": "مدينة نصر - القاهرة - جمهورية مصر العربية",
+      "phone": "+20 2 24000000",
+      "email": "info@etc.corp",
+      "createdAt": "2026-09-11T19:00:43.891Z"
+    }
+  ],
+  "loginHistory": [],
+  "activeSessions": [],
+  "auditLogs": [],
+  "accounts": [],
+  "journalEntries": [],
+  "recurringEntries": [],
+  "customers": [],
+  "vendors": [],
+  "inventory": [],
+  "fixedAssets": [],
+  "employees": [],
+  "treasury": [],
+  "bankReconciliations": [],
+  "costCenters": [],
+  "branches": [],
+  "eInvoices": [],
+  "eReceipts": [],
+  "taxReturns": [],
+  "auditPlans": [],
+  "auditPrograms": [],
+  "auditFindings": [],
+  "budgets": [],
+  "messages": [],
+  "announcements": [],
+  "notifications": [],
+  "files": [],
+  "certificates": []
+}

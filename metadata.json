@@ -1,0 +1,6 @@
+{
+  "name": "ETC",
+  "description": "منصة ETC الذكية للمحاسبة والمراجعة والضرائب وإدارة الأعمال",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
