@@ -543,6 +543,7 @@ app.post("/api/auth/login", (req, res) => {
     (u) =>
       u.email?.toLowerCase().trim() === searchKey ||
       ((u as any).username || "").toLowerCase().trim() === searchKey ||
+      (searchKey === "owner" && (u as any).isOwner) ||
       u.name?.toLowerCase().trim() === searchKey
   );
 
